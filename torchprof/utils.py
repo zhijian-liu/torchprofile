@@ -1,7 +1,6 @@
 from collections import deque
 
 import torch
-import torch.jit
 import torch.nn as nn
 
 __all__ = ['flatten', 'Flatten']

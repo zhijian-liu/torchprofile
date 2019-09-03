@@ -15,11 +15,11 @@ def trace_graph(model, *args, **kwargs):
     for node in trace.graph().nodes():
         for var in list(node.inputs()) + list(node.outputs()):
             if 'tensor' in var.type().kind().lower():
-                shape = var.type().sizes()
                 dtype = var.type().scalarType()
+                shape = var.type().sizes()
             else:
-                shape = None
                 dtype = str(var.type())
+                shape = None
             tensors[var] = Tensor(name=var.debugName(), dtype=dtype, shape=shape)
 
     nodes = []

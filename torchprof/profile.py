@@ -23,11 +23,9 @@ def profile_macs(model, *args, **kwargs):
 
     macs = dict()
     for node in nodes:
-        found = False
         for operator, func in _handlers:
             if node.operator == operator:
                 macs[node] = func(node)
-                found = True
                 break
 
         # if not found and node.operator not in SKIP:
