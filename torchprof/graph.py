@@ -8,7 +8,7 @@ class Tensor:
         self.shape = shape
 
     def __str__(self):
-        return '%' + self.name
+        return '%{}'.format(self.name)
 
 
 class Node:
@@ -20,6 +20,5 @@ class Node:
         self.scope = scope.lower()
 
     def __str__(self):
-        return '{} = {}({})'.format(', '.join([str(output) for output in self.outputs]),
-                                    self.operator,
-                                    ', '.join([str(input) for input in self.inputs]))
+        return '{} = {}({})'.format(', '.join([str(tensor) for tensor in self.outputs]), self.operator,
+                                    ', '.join([str(tensor) for tensor in self.inputs]))
