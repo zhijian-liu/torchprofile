@@ -1,7 +1,7 @@
 import torch
 from torchvision import models
 
-from torchprof import profile_macs
+from torchprofile import profile_macs
 
 model_names = sorted(name for name in models.__dict__ if
                      name.islower() and not name.startswith("__") and not "inception" in name
