@@ -1,20 +1,10 @@
-__all__ = ['Tensor', 'Node']
-
-
-class Tensor:
-    def __init__(self, name, dtype, shape):
-        self.name = name
-        self.dtype = dtype.lower()
-        self.shape = shape
-
-    def __str__(self):
-        return '%{}'.format(self.name)
+__all__ = ['Node']
 
 
 class Node:
-    def __init__(self, operator, attrs, inputs, outputs, scope):
+    def __init__(self, operator, attributes, inputs, outputs, scope):
         self.operator = operator.lower()
-        self.attrs = attrs
+        self.attributes = attributes
         self.inputs = inputs
         self.outputs = outputs
         self.scope = scope.lower()
