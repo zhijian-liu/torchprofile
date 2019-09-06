@@ -1,2 +1,2 @@
-from .node import *
-from .tensor import *
+from .node import Node
+from .tensor import Tensor
