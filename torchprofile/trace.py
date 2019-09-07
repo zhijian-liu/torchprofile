@@ -28,5 +28,6 @@ def trace_graph(model, *args, **kwargs):
         outputs = [tensors[var] for var in node.outputs()]
         attributes = {name: getattr(node, node.kindOf(name))(name) for name in node.attributeNames()}
         nodes.append(Node(operator=node.kind(), attributes=attributes, inputs=inputs, outputs=outputs,
-                          scope=node.scopeName().replace('flatten/', '')))
+                          scope=node.scopeName().replace('Flatten/', '')))
+        # print(nodes[-1])
     return nodes

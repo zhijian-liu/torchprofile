@@ -3,15 +3,15 @@ __all__ = ['Node']
 
 class Node:
     def __init__(self, operator, attributes, inputs, outputs, scope):
-        self._operator = operator.lower()
+        self._operator = operator
         self._attributes = attributes
         self._inputs = inputs
         self._outputs = outputs
-        self._scope = scope.lower()
+        self._scope = scope
 
     @property
     def operator(self):
-        return self._operator
+        return self._operator.lower()
 
     @property
     def attributes(self):
@@ -30,5 +30,17 @@ class Node:
         return self._scope
 
     def __str__(self):
-        return '{} = {}({})'.format(', '.join([str(tensor) for tensor in self.outputs]), self.operator,
-                                    ', '.join([str(tensor) for tensor in self.inputs]))
+        text = ''
+        if self.outputs:
+            text += ', '.join([str(tensor) for tensor in self.outputs])
+        text += ' = ' + self.operator
+        if self.attributes:
+            text += '[' + ', '.join(['{}={}'.format(k, v) for k, v in self.attributes.items()])+ ']'
+        if self.inputs:
+            text += '(' + ', '.join([str(tensor) for tensor in self.inputs]) + ')'
+        if self.scope:
+            text += ', scope={}'.format(self.scope)
+        return text
+        #
+        # return '{} = {}({}), scope={}'.format(', '.join([str(tensor) for tensor in self.outputs]), self.operator,
+        #                                       ', '.join([str(tensor) for tensor in self.inputs]), self.scope)

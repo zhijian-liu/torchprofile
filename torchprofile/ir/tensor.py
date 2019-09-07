@@ -4,7 +4,7 @@ __all__ = ['Tensor']
 class Tensor:
     def __init__(self, name, dtype, shape):
         self._name = name
-        self._dtype = dtype.lower()
+        self._dtype = dtype
         self._shape = shape
 
     @property
@@ -13,7 +13,7 @@ class Tensor:
 
     @property
     def dtype(self):
-        return self._dtype
+        return self._dtype.lower()
 
     @property
     def shape(self):
