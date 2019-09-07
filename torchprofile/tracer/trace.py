@@ -1,14 +1,14 @@
 import torch
 import torch.jit
 
-from .ir import Tensor, Node
-from .utils import Flatten
+from .flatten import Flatten
+from ..ir import Tensor, Node
 
-__all__ = ['trace_graph']
+__all__ = ['trace']
 
 
-def trace_graph(model, *args, **kwargs):
-    assert not kwargs, 'keyword argument is not supported. use positional arguments instead!'
+def trace(model, *args, **kwargs):
+    assert not kwargs, 'keyword argument is not supported for now. use positional arguments instead!'
     trace, _ = torch.jit.get_trace_graph(Flatten(model), tuple(args), kwargs=kwargs)
 
     tensors = dict()
@@ -29,5 +29,4 @@ def trace_graph(model, *args, **kwargs):
         attributes = {name: getattr(node, node.kindOf(name))(name) for name in node.attributeNames()}
         nodes.append(Node(operator=node.kind(), attributes=attributes, inputs=inputs, outputs=outputs,
                           scope=node.scopeName().replace('Flatten/', '')))
-        # print(nodes[-1])
     return nodes

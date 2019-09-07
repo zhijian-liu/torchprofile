@@ -1,6 +1,6 @@
 import numpy as np
 
-from .trace import trace_graph
+from .tracer import trace
 
 __all__ = ['profile_mults']
 
@@ -18,7 +18,7 @@ SKIP = [
 
 
 def profile_mults(model, *args, **kwargs):
-    nodes = trace_graph(model, *args, **kwargs)
+    nodes = trace(model, *args, **kwargs)
 
     macs = dict()
     for node in nodes:
