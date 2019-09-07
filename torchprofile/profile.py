@@ -27,6 +27,9 @@ def profile_mults(model, *args, **kwargs):
                 macs[node] = func(node)
                 break
 
-        # if not found and node.operator not in SKIP:
+        if node in macs:
+            print(macs[node], node, node.scope)
+
+        # if node not in macs and node.operator not in SKIP:
         #     print(node.operator)
     return macs
