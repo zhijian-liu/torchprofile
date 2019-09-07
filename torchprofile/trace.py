@@ -1,8 +1,8 @@
 import torch
 import torch.jit
 
-from .flatten import Flatten
-from ..ir import Tensor, Node
+from .ir import Tensor, Node
+from .utils import Flatten
 
 __all__ = ['trace']
 

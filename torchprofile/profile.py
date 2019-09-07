@@ -1,6 +1,6 @@
 import numpy as np
 
-from .tracer import trace
+from .trace import trace
 
 __all__ = ['profile_mults']
 

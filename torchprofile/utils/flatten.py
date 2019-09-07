@@ -25,6 +25,6 @@ class Flatten(nn.Module):
         super().__init__()
         self.model = model
 
-    def forward(self, *inputs, **kwargs):
-        outputs = self.model(*inputs, **kwargs)
+    def forward(self, *args, **kwargs):
+        outputs = self.model(*args, **kwargs)
         return flatten(outputs)
