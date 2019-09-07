@@ -11,7 +11,7 @@ __all__ = ['trace']
 
 def trace(model, *args, **kwargs):
     assert not kwargs, 'keyword argument is not supported for now. use positional arguments instead!'
-    with warnings.catch_warnings():
+    with warnings.catch_warnings(record=True):
         trace, _ = torch.jit.get_trace_graph(Flatten(model), tuple(args), kwargs=kwargs)
 
     tensors = dict()
@@ -31,5 +31,5 @@ def trace(model, *args, **kwargs):
         outputs = [tensors[var] for var in node.outputs()]
         attributes = {name: getattr(node, node.kindOf(name))(name) for name in node.attributeNames()}
         nodes.append(Node(operator=node.kind(), attributes=attributes, inputs=inputs, outputs=outputs,
-                          scope=node.scopeName().replace('Flatten/', '')))
+                          scope=node.scopeName().replace('Flatten/', '').replace('Flatten', '')))
     return nodes
