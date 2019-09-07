@@ -3,7 +3,7 @@ __all__ = ['Node']
 
 class Node:
     def __init__(self, operator, attributes, inputs, outputs, scope):
-        self._operator = operator
+        self._operator = operator.lower()
         self._attributes = attributes
         self._inputs = inputs
         self._outputs = outputs
@@ -11,7 +11,7 @@ class Node:
 
     @property
     def operator(self):
-        return self._operator.lower()
+        return self._operator
 
     @property
     def attributes(self):
