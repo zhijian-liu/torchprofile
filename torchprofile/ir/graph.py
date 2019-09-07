@@ -2,10 +2,19 @@ __all__ = ['Graph']
 
 
 class Graph:
-    def __init__(self, nodes, inputs, outputs):
+    def __init__(self, tensors, nodes, inputs, outputs):
+        self.tensors = tensors
         self.nodes = nodes
         self.inputs = inputs
         self.outputs = outputs
+
+    @property
+    def tensors(self):
+        return self._tensors
+
+    @tensors.setter
+    def tensors(self, tensors):
+        self._tensors = tensors
 
     @property
     def nodes(self):

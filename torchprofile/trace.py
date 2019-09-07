@@ -33,5 +33,6 @@ def trace(model, *args, **kwargs):
         scope = node.scopeName().replace('Flatten/', '', 1).replace('Flatten', '', 1)
         nodes.append(Node(operator=node.kind(), attributes=attributes, inputs=inputs, outputs=outputs, scope=scope))
 
-    graph = Graph(nodes=nodes, inputs=None, outputs=None)
-    return graph
+    inputs = [tensors[var] for var in trace.graph().inputs()]
+    outputs = [tensors[var] for var in trace.graph().outputs()]
+    return Graph(tensors=tensors.values(), nodes=nodes, inputs=inputs, outputs=outputs)
