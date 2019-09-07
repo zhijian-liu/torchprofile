@@ -18,10 +18,10 @@ SKIP = [
 
 
 def profile_mults(model, *args, **kwargs):
-    nodes = trace(model, *args, **kwargs)
+    graph = trace(model, *args, **kwargs)
 
     macs = dict()
-    for node in nodes:
+    for node in graph.nodes:
         for operator, func in _handlers:
             if node.operator == operator or (isinstance(operator, (list, tuple)) and node.operator in operator):
                 macs[node] = func(node)

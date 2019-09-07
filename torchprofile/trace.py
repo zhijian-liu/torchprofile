@@ -3,7 +3,7 @@ import warnings
 import torch
 import torch.jit
 
-from .ir import Tensor, Node
+from .ir import Tensor, Node, Graph
 from .utils import Flatten
 
 __all__ = ['trace']
@@ -32,4 +32,6 @@ def trace(model, *args, **kwargs):
         outputs = [tensors[var] for var in node.outputs()]
         scope = node.scopeName().replace('Flatten/', '', 1).replace('Flatten', '', 1)
         nodes.append(Node(operator=node.kind(), attributes=attributes, inputs=inputs, outputs=outputs, scope=scope))
-    return nodes
+
+    graph = Graph(nodes=nodes, inputs=None, outputs=None)
+    return graph
