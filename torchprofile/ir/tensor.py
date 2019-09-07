@@ -4,6 +4,7 @@ __all__ = ['Tensor']
 class Tensor:
     def __init__(self, name, dtype, shape):
         self.name = name
+        self.value = None
         self.dtype = dtype
         self.shape = shape
 
@@ -14,6 +15,14 @@ class Tensor:
     @name.setter
     def name(self, name):
         self._name = name
+
+    @property
+    def value(self):
+        return self._value
+
+    @value.setter
+    def value(self, value):
+        self._value = value
 
     @property
     def dtype(self):
