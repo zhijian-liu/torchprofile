@@ -50,17 +50,9 @@ class Node:
         self._scope = scope
 
     def __str__(self):
-        text = ''
-        if self.outputs:
-            text += ', '.join([str(tensor) for tensor in self.outputs])
-        text += ' = ' + self.operator
+        text = ', '.join([str(tensor) for tensor in self.outputs]) + ' = ' + self.operator
         if self.attributes:
-            text += '[' + ', '.join(['{}={}'.format(k, v) for k, v in self.attributes.items()]) + ']'
+            text += '[' + ', '.join([str(k) + '=' + str(v) for k, v in self.attributes.items()]) + ']'
         if self.inputs:
             text += '(' + ', '.join([str(tensor) for tensor in self.inputs]) + ')'
-        if self.scope:
-            text += ', scope={}'.format(self.scope)
         return text
-        #
-        # return '{} = {}({}), scope={}'.format(', '.join([str(tensor) for tensor in self.outputs]), self.operator,
-        #                                       ', '.join([str(tensor) for tensor in self.inputs]), self.scope)
