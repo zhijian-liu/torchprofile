@@ -2,11 +2,11 @@ __all__ = ['Graph']
 
 
 class Graph:
-    def __init__(self, tensors, nodes, inputs, outputs):
+    def __init__(self, tensors, inputs, outputs, nodes):
         self.tensors = tensors
-        self.nodes = nodes
         self.inputs = inputs
         self.outputs = outputs
+        self.nodes = nodes
 
     @property
     def tensors(self):
@@ -15,14 +15,6 @@ class Graph:
     @tensors.setter
     def tensors(self, tensors):
         self._tensors = tensors
-
-    @property
-    def nodes(self):
-        return self._nodes
-
-    @nodes.setter
-    def nodes(self, nodes):
-        self._nodes = nodes
 
     @property
     def inputs(self):
@@ -39,6 +31,14 @@ class Graph:
     @outputs.setter
     def outputs(self, outputs):
         self._outputs = outputs
+
+    @property
+    def nodes(self):
+        return self._nodes
+
+    @nodes.setter
+    def nodes(self, nodes):
+        self._nodes = nodes
 
     def __str__(self):
         return '\n'.join([str(node) for node in self.nodes])
