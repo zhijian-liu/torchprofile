@@ -43,5 +43,10 @@ class Tensor:
     def size(self):
         return self._shape
 
-    def __str__(self):
-        return '%{}'.format(self.name)
+    def __repr__(self):
+        text = '%' + self.name + ' : ' + self.dtype
+        if self.shape:
+            text += '(' + ', '.join([str(size) for size in self.shape]) + ')'
+        if self.value:
+            text += ' = ' + self.value
+        return text
