@@ -1,7 +1,7 @@
-__all__ = ['Tensor']
+__all__ = ['Variable']
 
 
-class Tensor:
+class Variable:
     def __init__(self, name, dtype, shape):
         self.name = name
         self.dtype = dtype
@@ -35,7 +35,7 @@ class Tensor:
         return self._shape
 
     def __repr__(self):
-        text = '%' + self.name + ' : ' + self.dtype
+        text = '%' + self.name + ': ' + self.dtype
         if self.shape is not None:
             text += '[' + ', '.join([str(shape) for shape in self.shape]) + ']'
         return text
