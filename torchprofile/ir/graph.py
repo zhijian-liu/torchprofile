@@ -3,17 +3,17 @@ __all__ = ['Graph']
 
 class Graph:
     def __init__(self, variables, inputs, outputs, nodes):
-        self.tensors = variables
+        self.variables = variables
         self.inputs = inputs
         self.outputs = outputs
         self.nodes = nodes
 
     @property
-    def tensors(self):
+    def variables(self):
         return self._tensors
 
-    @tensors.setter
-    def tensors(self, tensors):
+    @variables.setter
+    def variables(self, tensors):
         self._tensors = tensors
 
     @property
