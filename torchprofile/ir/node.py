@@ -49,10 +49,10 @@ class Node:
     def scope(self, scope):
         self._scope = scope
 
-    def __str__(self):
+    def __repr__(self):
         text = ', '.join([str(tensor) for tensor in self.outputs]) + ' = ' + self.operator
         if self.attributes:
-            text += '[' + ', '.join([str(k) + '=' + str(v) for k, v in self.attributes.items()]) + ']'
+            text += '[' + ', '.join([str(k) + ' = ' + str(v) for k, v in self.attributes.items()]) + ']'
         if self.inputs:
             text += '(' + ', '.join([str(tensor) for tensor in self.inputs]) + ')'
         return text

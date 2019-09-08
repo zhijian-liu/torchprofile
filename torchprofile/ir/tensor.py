@@ -4,7 +4,6 @@ __all__ = ['Tensor']
 class Tensor:
     def __init__(self, name, dtype, shape):
         self.name = name
-        self.value = None
         self.dtype = dtype
         self.shape = shape
 
@@ -15,14 +14,6 @@ class Tensor:
     @name.setter
     def name(self, name):
         self._name = name
-
-    @property
-    def value(self):
-        return self._value
-
-    @value.setter
-    def value(self, value):
-        self._value = value
 
     @property
     def dtype(self):
@@ -44,11 +35,7 @@ class Tensor:
         return self._shape
 
     def __repr__(self):
-        text = '%' + self.name + ' = '
-        if self.value:
-            text += str(self.value)
-        else:
-            text += self.dtype
-            if self.shape is not None:
-                text += '(' + ', '.join([str(shape) for shape in self.shape]) + ')'
+        text = '%' + self.name + ' : ' + self.dtype
+        if self.shape is not None:
+            text += '[' + ', '.join([str(shape) for shape in self.shape]) + ']'
         return text
