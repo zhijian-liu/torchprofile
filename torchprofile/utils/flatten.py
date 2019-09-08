@@ -7,7 +7,7 @@ __all__ = ['flatten', 'Flatten']
 
 
 def flatten(inputs):
-    queue = deque(inputs)
+    queue = deque([inputs])
     outputs = []
     while queue:
         x = queue.popleft()
