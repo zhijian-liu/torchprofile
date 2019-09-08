@@ -40,7 +40,7 @@ class Graph:
     def nodes(self, nodes):
         self._nodes = nodes
 
-    def __str__(self):
+    def __repr__(self):
         text = '\n'.join([str(node) for node in self.nodes])
         if self.outputs:
             text += '\n' + 'return ' + '(' + ', '.join(['%' + tensor.name for tensor in self.outputs]) + ')'
