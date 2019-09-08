@@ -47,7 +47,7 @@ class Tensor:
         text = '%' + self.name + ' = '
         if not self.value:
             text += self.dtype
-            if self.shape:
+            if self.shape is not None:
                 text += '(' + ', '.join([str(shape) for shape in self.shape]) + ')'
         else:
             text += str(self.value)
