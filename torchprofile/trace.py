@@ -37,4 +37,4 @@ def trace(model, *args, **kwargs):
 
     inputs = [tensors[var] for var in trace.graph().inputs()]
     outputs = [tensors[var] for var in trace.graph().outputs()]
-    return Graph(tensors=tensors.values(), inputs=inputs, outputs=outputs, nodes=nodes)
+    return Graph(tensors=list(tensors.values()), inputs=inputs, outputs=outputs, nodes=nodes)
