@@ -45,10 +45,10 @@ class Tensor:
 
     def __repr__(self):
         text = '%' + self.name + ' = '
-        if self.value:
-            text += str(self.value)
-        else:
+        if not self.value:
             text += self.dtype
             if self.shape:
-                text += '(' + ', '.join([str(size) for size in self.shape]) + ')'
+                text += '(' + ', '.join([str(shape) for shape in self.shape]) + ')'
+        else:
+            text += str(self.value)
         return text
