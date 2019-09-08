@@ -48,5 +48,5 @@ class Tensor:
         if self.shape:
             text += '(' + ', '.join([str(size) for size in self.shape]) + ')'
         if self.value:
-            text += ' = ' + self.value
+            text += ' = ' + str(self.value)
         return text
