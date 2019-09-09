@@ -4,7 +4,11 @@ import torch.nn as nn
 from torchprofile.utils.trace import trace
 
 if __name__ == '__main__':
-    model = nn.Linear(16, 32)
-    inputs = torch.zeros(1, 16)
+    in_features = 16
+    out_features = 32
+
+    model = nn.Linear(in_features, out_features)
+    inputs = torch.zeros(1, in_features)
+
     graph = trace(model, inputs)
     print(graph)
