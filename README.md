@@ -7,7 +7,7 @@ This tool is used to profile the MACs of PyTorch models. It is based on `torch.j
 We recommend you to install the latest version of this package from GitHub:
 
 ```bash
-pip install --upgrade git+https://github.com/mit-han-lab/torchprofiler.git
+pip install --upgrade git+https://github.com/mit-han-lab/torchprofile.git
 ```
 
 ## Getting Started
