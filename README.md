@@ -15,8 +15,8 @@ pip install --upgrade git+https://github.com/mit-han-lab/torchprofile.git
 Before profiling, you should first define your PyTorch model and a (dummy) input which the model takes:
 
 ```python
-from torchvision.models import resnet18
 import torch
+from torchvision.models import resnet18
 
 model = resnet18()
 inputs = torch.randn(1, 3, 224, 224)
