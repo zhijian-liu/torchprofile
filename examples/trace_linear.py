@@ -8,7 +8,7 @@ if __name__ == '__main__':
     out_features = 32
 
     model = nn.Linear(in_features, out_features)
-    inputs = torch.zeros(1, in_features)
+    inputs = torch.randn(1, in_features)
 
     graph = trace(model, inputs)
     print(graph)
