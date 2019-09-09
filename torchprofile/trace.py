@@ -36,8 +36,8 @@ def trace(model, *args, **kwargs):
                     scope=node.scopeName().replace('Flatten/', '', 1).replace('Flatten', '', 1))
         nodes.append(node)
 
-    graph = Graph(name=type(model).__module__ + '.' + type(model).__name__,
-                  variables=list(variables.values()),
+    graph = Graph(name=model.__class__.__module__ + '.' + model.__class__.__name__,
+                  variables=[var for var in variables.values()],
                   inputs=[variables[var] for var in trace.graph().inputs()],
                   outputs=[variables[var] for var in trace.graph().outputs()],
                   nodes=nodes)
