@@ -1,6 +1,8 @@
 # torchprofile
 
-This tool is used to profile the MACs of PyTorch models. It is based on `torch.jit.trace`, which is more general and accurate than hook-based profilers.
+This package is a `torch.jit.trace`-based profiler to profile the number of MACs for PyTorch models.
+* It is more accurate than hook-based profilers.
+* It is more general than onnx-based profilers.
 
 ## Installation
 
