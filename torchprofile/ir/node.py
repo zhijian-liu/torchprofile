@@ -53,6 +53,5 @@ class Node:
         text = ', '.join([str(tensor) for tensor in self.outputs]) + ' = ' + self.operator
         if self.attributes:
             text += '[' + ', '.join([str(k) + ' = ' + str(v) for k, v in self.attributes.items()]) + ']'
-        if self.inputs:
-            text += '(' + ', '.join([str(tensor) for tensor in self.inputs]) + ')'
+        text += '(' + ', '.join([str(tensor) for tensor in self.inputs]) + ')'
         return text
