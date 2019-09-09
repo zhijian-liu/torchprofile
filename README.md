@@ -10,6 +10,13 @@ We recommend you to install the latest version of this package from GitHub:
 pip install --upgrade git+https://github.com/mit-han-lab/torchprofile.git
 ```
 
+To install from source code
+```bash
+git clone https://github.com/mit-han-lab/torchprofile.git
+cd ./torchprofile
+pip install .
+```
+
 ## Getting Started
 
 Before profiling, you should first define your PyTorch model and a (dummy) input which the model takes:
