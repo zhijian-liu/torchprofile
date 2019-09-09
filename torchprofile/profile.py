@@ -4,99 +4,92 @@ import numpy as np
 
 from .utils.trace import trace
 
-__all__ = ['profile', 'profile_flops', 'profile_macs']
+__all__ = ['profile_macs']
 
 
-class Result:
-    def __init__(self, adds=0, mults=0, divs=0):
-        self.adds = adds
-        self.mults = mults
-        self.divs = divs
-
-    def __add__(self, other):
-        self.adds += other.adds
-        self.mults += other.mults
-        self.divs += other.divs
-        return self
+def mul(node):
+    # float[4, 4] = aten::mul(%0: float[4, 1], %1: float[1, 4])
+    # float[n, m] = aten::mul(%0: float[n, m], %4: long[])
+    return np.prod(node.outputs[0].shape)
 
 
-def _add(node):
-    return Result()
+def matmul(node):
+    # float[16, 512], %4: float[512, 512]
+    return np.prod(node.inputs[0].shape + [node.inputs[1].shape[-1]])
 
 
-def _mul(node):
-    assert len(node.outputs) == 1, node.outputs
-    assert node.outputs[0].shape == node.inputs[0].shape, (node.outputs[0].shape, node.inputs[0].shape)
-    return Result(mults=np.prod(node.outputs[0].shape))
+def bmm(node):
+    # [b, n, p] = aten::bmm([b, n, m], [b, m, p])
+    b = node.outputs[0].shape[0]
+    n = node.outputs[0].shape[1]
+    p = node.outputs[0].shape[2]
+    m = node.inputs[0].shape[2]
+    return b * n * p * m
 
 
-def _div(node):
-    assert len(node.outputs) == 1, node.outputs
-    assert node.outputs[0].shape == node.inputs[0].shape, (node.outputs[0].shape, node.inputs[0].shape)
-    return Result(divs=np.prod(node.outputs[0].shape))
+def addmm(node):
+    # [n, p] = aten::addmm([n(, p)], [n, m], [m, p], *, *)
+    n = node.outputs[0].shape[0]
+    p = node.outputs[0].shape[1]
+    m = node.inputs[1].shape[1]
+    return n * p * m
 
 
-def _convolution(node):
-    assert len(node.outputs) == 1
-    return Result(mults=np.prod(node.outputs[0].shape + node.inputs[1].shape[1:]))
+def addmv(node):
+    # [n] = aten::addmv([n], [n, m], [m], *, *)
+    n = node.outputs[0].shape[0]
+    m = node.inputs[1].shape[1]
+    return n * m
 
 
-def _addmm(node):
-    return Result(mults=np.prod(node.outputs[0].shape + [node.inputs[2].shape[0]]))
+def convolution(node):
+    return np.prod(node.outputs[0].shape + node.inputs[1].shape[1:])
 
 
-def _matmul_or_bmm(node):
-    return Result(mults=np.prod(node.inputs[0].shape + [node.inputs[1].shape[-1]]))
+def mean(node):
+    return 1
 
 
-def _mean(node):
-    return Result()
-
-
-def _zero(node):
-    return Result()
+def zero(node):
+    return 0
 
 
 _handlers = (
-    (('aten::add', 'aten::add_'), _add),
-    (('aten::mul', 'aten::mul_'), _mul),
-    (('aten::div', 'aten::div_'), _div),
+    (('aten::add', 'aten::add_'), zero),
+    (('aten::div', 'aten::div_'), zero),
 
-    ('aten::addmm', _addmm),
-    (('aten::matmul', 'aten::bmm'), _matmul_or_bmm),
+    (('aten::mul', 'aten::mul_'), mul),
+    ('aten::matmul', matmul),
+    ('aten::addmm', addmm),
+    ('aten::addmv', addmv),
 
-    ('aten::_convolution', _convolution),
-    ('aten::mean', _mean),
+    ('aten::bmm', bmm),
+
+    ('aten::_convolution', convolution),
+    ('aten::mean', mean),
 
     (('aten::chunk', 'aten::clone', 'aten::contiguous', 'aten::dropout', 'aten::eq', 'aten::hardtanh_', 'aten::int',
-      'aten::ne', 'aten::relu', 'aten::select', 'aten::size', 'aten::slice', 'aten::sum', 'aten::t', 'aten::transpose',
-      'aten::view', 'prim::constant', 'prim::listconstruct', 'prim::listunpack', 'prim::numtotensor'), _zero)
+      'aten::ne', 'aten::relu', 'aten::select', 'aten::size', 'aten::slice', 'aten::softmax', 'aten::sum', 'aten::t',
+      'aten::transpose', 'aten::view', 'prim::constant', 'prim::listconstruct', 'prim::listunpack',
+      'prim::numtotensor'), zero)
 )
 
 
-def profile(model, *args, **kwargs):
+def profile_macs(model, *args, reduction=sum, **kwargs):
     graph = trace(model, *args, **kwargs)
 
-    total = Result()
     results = dict()
     for node in graph.nodes:
         for operator, func in _handlers:
             if node.operator == operator or (isinstance(operator, (list, tuple)) and node.operator in operator):
                 res = func(node)
                 results[node] = res
-                total += res
                 break
 
         if node not in results:
             warnings.warn('missing handler for {}'.format(node.operator), UserWarning)
-            # print(node, node.scope)
-    return total
 
-
-def profile_flops(model, *args, **kwargs):
-    return
-
-
-def profile_macs(model, *args, **kwargs):
-    results = profile(model, *args, **kwargs)
-    return results.mults
+    if reduction is not None:
+        return reduction(results.values())
+    else:
+        return results
