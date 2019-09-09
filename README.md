@@ -1,6 +1,6 @@
 # torchprofile
 
-This tool is used to profile the NN models.
+This tool is used to profile the MACs of PyTorch models. It is based on `torch.jit.trace`, which is more general and accurate than hook-based profilers.
 
 ## Installation
 
@@ -22,11 +22,10 @@ model = resnet18()
 inputs = torch.randn(1, 3, 224, 224)
 ```
 
-If you want to profile the number of multiplications in your model,
+If you want to profile the number of MACs in your model,
 
 ```python
 from torchprofile import profile_macs
-import numpy as np
 
 macs = profile_macs(model, inputs)
 ```
