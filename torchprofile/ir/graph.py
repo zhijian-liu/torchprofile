@@ -50,7 +50,8 @@ class Graph:
         self._nodes = nodes
 
     def __repr__(self):
-        return self.name + ' (\n' + \
-               ',\n'.join(['  ' + str(var) for var in self.inputs]) + '\n):\n' + \
-               '\n'.join(['  ' + str(node) for node in self.nodes]) + '\n  return ' + \
-               ', '.join([str(var) for var in self.outputs])
+        text = self.name
+        text += ' (' + '\n' + ',\n'.join(['\t' + str(var) for var in self.inputs]) + '\n' + '):' + '\n'
+        text += '\n'.join(['\t' + str(node) for node in self.nodes]) + '\n'
+        text += '\t' + 'return ' + ', '.join([str(var) for var in self.outputs])
+        return text
