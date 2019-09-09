@@ -3,8 +3,8 @@ import warnings
 import torch
 import torch.jit
 
+from .flatten import Flatten
 from .ir import Variable, Node, Graph
-from .utils import Flatten
 
 __all__ = ['trace']
 

@@ -2,7 +2,7 @@ import warnings
 
 import numpy as np
 
-from .trace import trace
+from .utils.trace import trace
 
 __all__ = ['profile', 'profile_flops', 'profile_macs']
 
@@ -76,7 +76,6 @@ _handlers = (
 
 def profile(model, *args, **kwargs):
     graph = trace(model, *args, **kwargs)
-    print(graph)
 
     total = Result()
     results = dict()
@@ -91,7 +90,6 @@ def profile(model, *args, **kwargs):
         if node not in results:
             warnings.warn('missing handler for {}'.format(node.operator), UserWarning)
             # print(node, node.scope)
-    print(results)
     return total
 
 
