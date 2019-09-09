@@ -2,19 +2,28 @@ __all__ = ['Graph']
 
 
 class Graph:
-    def __init__(self, variables, inputs, outputs, nodes):
+    def __init__(self, name, variables, inputs, outputs, nodes):
+        self.name = name
         self.variables = variables
         self.inputs = inputs
         self.outputs = outputs
         self.nodes = nodes
 
     @property
+    def name(self):
+        return self._name
+
+    @name.setter
+    def name(self, name):
+        self._name = name
+
+    @property
     def variables(self):
-        return self._tensors
+        return self._variables
 
     @variables.setter
-    def variables(self, tensors):
-        self._tensors = tensors
+    def variables(self, variables):
+        self._variables = variables
 
     @property
     def inputs(self):
@@ -41,7 +50,7 @@ class Graph:
         self._nodes = nodes
 
     def __repr__(self):
-        text = '\n'.join([str(node) for node in self.nodes])
-        if self.outputs:
-            text += '\n' + 'return ' + '(' + ', '.join(['%' + tensor.name for tensor in self.outputs]) + ')'
-        return text
+        return self.name + ' (\n' + \
+               ',\n'.join(['  ' + str(var) for var in self.inputs]) + '\n):\n' + \
+               '\n'.join(['  ' + str(node) for node in self.nodes]) + '\n  return ' + \
+               ', '.join([str(var) for var in self.outputs])

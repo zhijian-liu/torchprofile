@@ -20,21 +20,25 @@ def trace(model, *args, **kwargs):
     for node in trace.graph().nodes():
         for var in list(node.inputs()) + list(node.outputs()):
             if 'tensor' in var.type().kind().lower():
-                dtype = var.type().scalarType()
-                shape = var.type().sizes()
+                variables[var] = Variable(name=var.debugName(),
+                                          dtype=var.type().scalarType(),
+                                          shape=var.type().sizes())
             else:
-                dtype = str(var.type())
-                shape = None
-            variables[var] = Variable(name=var.debugName(), dtype=dtype, shape=shape)
+                variables[var] = Variable(name=var.debugName(),
+                                          dtype=str(var.type()))
 
     nodes = []
     for node in trace.graph().nodes():
-        attributes = {name: getattr(node, node.kindOf(name))(name) for name in node.attributeNames()}
-        inputs = [variables[var] for var in node.inputs()]
-        outputs = [variables[var] for var in node.outputs()]
-        scope = node.scopeName().replace('Flatten/', '', 1).replace('Flatten', '', 1)
-        nodes.append(Node(operator=node.kind(), attributes=attributes, inputs=inputs, outputs=outputs, scope=scope))
+        node = Node(operator=node.kind(),
+                    attributes={name: getattr(node, node.kindOf(name))(name) for name in node.attributeNames()},
+                    inputs=[variables[var] for var in node.inputs()],
+                    outputs=[variables[var] for var in node.outputs()],
+                    scope=node.scopeName().replace('Flatten/', '', 1).replace('Flatten', '', 1))
+        nodes.append(node)
 
-    inputs = [variables[var] for var in trace.graph().inputs()]
-    outputs = [variables[var] for var in trace.graph().outputs()]
-    return Graph(variables=list(variables.values()), inputs=inputs, outputs=outputs, nodes=nodes)
+    graph = Graph(name=type(model).__module__ + '.' + type(model).__name__,
+                  variables=list(variables.values()),
+                  inputs=[variables[var] for var in trace.graph().inputs()],
+                  outputs=[variables[var] for var in trace.graph().outputs()],
+                  nodes=nodes)
+    return graph
