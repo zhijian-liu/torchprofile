@@ -12,4 +12,4 @@ if __name__ == '__main__':
     target = torch.zeros(num_tokens, 1, embed_size)
 
     total_macs = profile_macs(model, source, target)
-    print(total_macs / 1e9, 'GFLOPs')
+    print(total_macs / 1e9, 'GMACs')

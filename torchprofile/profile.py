@@ -72,12 +72,18 @@ _handlers = (
 
     ('aten::_convolution', convolution),
     ('aten::layer_norm', layer_norm),
+
+    ('aten::max_pool2d', zero),
     ('aten::mean', mean),
 
-    (('aten::chunk', 'aten::clone', 'aten::contiguous', 'aten::dropout', 'aten::eq', 'aten::hardtanh_', 'aten::int',
-      'aten::ne', 'aten::relu', 'aten::select', 'aten::size', 'aten::slice', 'aten::softmax', 'aten::sum', 'aten::t',
-      'aten::transpose', 'aten::view', 'prim::constant', 'prim::listconstruct', 'prim::listunpack',
-      'prim::numtotensor'), zero)
+    # TODO: need to be fixed
+    ('aten::batch_norm', zero),
+    (('aten::avg_pool2d', 'aten::adaptive_avg_pool2d'), zero),
+
+    (('aten::cat', 'aten::chunk', 'aten::clone', 'aten::contiguous', 'aten::dropout', 'aten::dropout_', 'aten::eq',
+      'aten::flatten', 'aten::hardtanh_', 'aten::int', 'aten::ne', 'aten::relu', 'aten::relu_', 'aten::select',
+      'aten::size', 'aten::slice', 'aten::softmax', 'aten::sum', 'aten::t', 'aten::transpose', 'aten::view',
+      'prim::constant', 'prim::listconstruct', 'prim::listunpack', 'prim::numtotensor'), zero)
 )
 
 
