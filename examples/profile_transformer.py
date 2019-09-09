@@ -8,8 +8,8 @@ if __name__ == '__main__':
     num_tokens = 30
 
     model = Transformer(embed_size)
-    src = torch.zeros(num_tokens, 1, embed_size)
-    tgt = torch.zeros(num_tokens, 1, embed_size)
+    source = torch.zeros(num_tokens, 1, embed_size)
+    target = torch.zeros(num_tokens, 1, embed_size)
 
-    total_macs = profile_macs(model, src, tgt)
+    total_macs = profile_macs(model, source, target)
     print(total_macs / 1e9, 'GFLOPs')

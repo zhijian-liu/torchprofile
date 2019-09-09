@@ -46,6 +46,11 @@ def convolution(node):
     return np.prod(node.outputs[0].shape + node.inputs[1].shape[1:])
 
 
+def layer_norm(node):
+    # [30, 1, 512] = aten::layer_norm(float[30, 1, 512], *, float[512], float[512], *, *)
+    return np.prod(node.outputs[0].shape)
+
+
 def mean(node):
     return 1
 
@@ -66,6 +71,7 @@ _handlers = (
     ('aten::bmm', bmm),
 
     ('aten::_convolution', convolution),
+    ('aten::layer_norm', layer_norm),
     ('aten::mean', mean),
 
     (('aten::chunk', 'aten::clone', 'aten::contiguous', 'aten::dropout', 'aten::eq', 'aten::hardtanh_', 'aten::int',
