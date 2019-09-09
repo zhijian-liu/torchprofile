@@ -8,8 +8,7 @@ if __name__ == '__main__':
     num_tokens = 30
 
     model = Transformer(embed_size)
-    source = torch.randn(num_tokens, 1, embed_size)
-    target = torch.randn(num_tokens, 1, embed_size)
+    inputs = (torch.randn(num_tokens, 1, embed_size), torch.randn(num_tokens, 1, embed_size))
 
-    total_macs = profile_macs(model, source, target)
-    print(total_macs / 1e9, 'GMACs')
+    total_macs = profile_macs(model, *inputs)
+    print('number of MACs = {:.4g} G'.format(total_macs / 1e9))
