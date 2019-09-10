@@ -39,10 +39,6 @@ def convolution(node):
     return np.prod(os) * ic * np.prod(ks)
 
 
-def mean(node):
-    return 1
-
-
 def batch_norm(node):
     # TODO: provide an option to not fuse `batch_norm` into `linear` or `conv`
     return 0
@@ -58,6 +54,10 @@ def avg_pool(node):
     return np.prod(os)
 
 
+def mean(node):
+    return 1
+
+
 handlers = (
     ('aten::addmm', addmm),
     ('aten::addmv', addmv),
@@ -65,13 +65,11 @@ handlers = (
     ('aten::matmul', matmul),
     (('aten::mul', 'aten::mul_'), mul),
     ('aten::_convolution', convolution),
-    ('aten::mean', mean),
-
     ('aten::batch_norm', batch_norm),
     (('aten::instance_norm', 'aten::layer_norm'), instance_norm_or_layer_norm),
-
-    (('aten::adaptive_avg_pool1d', 'aten::adaptive_avg_pool2d', 'aten::adaptive_avg_pool3d', 'aten::avg_pool1d',
-      'aten::avg_pool2d', 'aten::avg_pool3d'), avg_pool),
+    (('aten::adaptive_avg_pool1d', 'aten::adaptive_avg_pool2d', 'aten::adaptive_avg_pool3d',
+      'aten::avg_pool1d', 'aten::avg_pool2d', 'aten::avg_pool3d'), avg_pool),
+    ('aten::mean', mean),
 
     (('aten::adaptive_max_pool1d', 'aten::adaptive_max_pool2d', 'aten::adaptive_max_pool3d', 'aten::add', 'aten::add_',
       'aten::alpha_dropout', 'aten::cat', 'aten::chunk', 'aten::clone', 'aten::constant_pad_nd', 'aten::contiguous',
