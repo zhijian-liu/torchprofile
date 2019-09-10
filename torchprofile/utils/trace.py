@@ -12,11 +12,14 @@ __all__ = ['trace']
 def trace(model, args=(), kwargs=None):
     assert kwargs is None, 'Keyword arguments are not supported for now. ' \
                            'Please use positional arguments instead!'
-    if not isinstance(args, (list, tuple)):
+
+    if not isinstance(args, tuple):
         args = (args,)
+    if kwargs is None:
+        kwargs = dict()
 
     with warnings.catch_warnings(record=True):
-        trace, _ = torch.jit.get_trace_graph(Flatten(model), tuple(args), kwargs=kwargs)
+        trace, _ = torch.jit.get_trace_graph(Flatten(model), args, kwargs)
 
     variables = dict()
     for node in trace.graph().nodes():
