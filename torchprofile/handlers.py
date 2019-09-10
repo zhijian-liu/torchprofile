@@ -55,8 +55,8 @@ def mean(node):
 
 
 def avg_pool(node):
-    output_size = node.outputs[0].shape
-    return np.prod(output_size)
+    os = node.outputs[0].shape
+    return np.prod(os)
 
 
 def none(node):
@@ -74,8 +74,8 @@ handlers = (
     ('aten::layer_norm', layer_norm),
     ('aten::mean', mean),
 
-    (('aten::avg_pool1d', 'aten::avg_pool2d', 'aten::avg_pool3d'), avg_pool),
-    (('aten::adaptive_avg_pool1d', 'aten::adaptive_avg_pool2d', 'aten::adaptive_avg_pool3d'), avg_pool),
+    (('aten::adaptive_avg_pool1d', 'aten::adaptive_avg_pool2d', 'aten::adaptive_avg_pool3d', 'aten::avg_pool1d',
+      'aten::avg_pool2d', 'aten::avg_pool3d'), avg_pool),
 
     (('aten::adaptive_max_pool1d', 'aten::adaptive_max_pool2d', 'aten::adaptive_max_pool3d', 'aten::add', 'aten::add_',
       'aten::cat', 'aten::chunk', 'aten::clone', 'aten::contiguous', 'aten::div', 'aten::div_', 'aten::dropout',
