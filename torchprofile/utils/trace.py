@@ -10,6 +10,8 @@ __all__ = ['trace']
 
 
 def trace(model, args=(), kwargs=None):
+    if not isinstance(args, (list, tuple)):
+        args = (args,)
     assert kwargs is None, 'Keyword arguments are not supported for now. ' \
                            'Please use positional arguments instead!'
 

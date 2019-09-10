@@ -14,5 +14,5 @@ if __name__ == '__main__':
         else:
             inputs = torch.randn(1, 3, 299, 299)
 
-        total_macs = profile_macs(model, (inputs,))
+        total_macs = profile_macs(model, inputs)
         print('{}: {:.4g} G'.format(name, total_macs / 1e9))
