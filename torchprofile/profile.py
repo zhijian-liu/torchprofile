@@ -11,13 +11,14 @@ def profile_macs(model, *args, reduction=sum, **kwargs):
 
     results = dict()
     for node in graph.nodes:
-        for operator, func in handlers:
-            if node.operator == operator or (isinstance(operator, (list, tuple)) and node.operator in operator):
+        for operators, func in handlers:
+            if isinstance(operators, str):
+                operators = [operators]
+            if node.operator in operators:
                 results[node] = func(node)
                 break
-
-        if node not in results:
-            warnings.warn('missing handler for {}'.format(node.operator), UserWarning)
+        else:
+            warnings.warn('No handlers found: "{}". Skipped.'.format(node.operator))
 
     if reduction is not None:
         return reduction(results.values())
