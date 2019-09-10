@@ -29,7 +29,7 @@ If you want to profile the number of MACs in your model,
 ```python
 from torchprofile import profile_macs
 
-macs = profile_macs(model, (inputs,))
+macs = profile_macs(model, inputs)
 ```
 
 ## License
