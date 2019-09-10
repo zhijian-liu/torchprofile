@@ -10,5 +10,5 @@ if __name__ == '__main__':
     model = nn.Linear(in_features, out_features)
     inputs = torch.randn(1, in_features)
 
-    graph = trace(model, inputs)
+    graph = trace(model, (inputs,))
     print(graph)

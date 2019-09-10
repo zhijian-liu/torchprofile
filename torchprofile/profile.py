@@ -6,8 +6,8 @@ from .utils.trace import trace
 __all__ = ['profile_macs']
 
 
-def profile_macs(model, *args, reduction=sum, **kwargs):
-    graph = trace(model, *args, **kwargs)
+def profile_macs(model, args=(), kwargs=None, reduction=sum):
+    graph = trace(model, args, kwargs)
 
     results = dict()
     for node in graph.nodes:

@@ -9,9 +9,9 @@ from .ir import Variable, Node, Graph
 __all__ = ['trace']
 
 
-def trace(model, *args, **kwargs):
-    assert not kwargs, 'Keyword arguments are not supported for now. ' \
-                       'Please use positional arguments instead!'
+def trace(model, args=(), kwargs=None):
+    assert kwargs is None, 'Keyword arguments are not supported for now. ' \
+                           'Please use positional arguments instead!'
 
     with warnings.catch_warnings(record=True):
         trace, _ = torch.jit.get_trace_graph(Flatten(model), tuple(args), kwargs=kwargs)
