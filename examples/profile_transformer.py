@@ -12,4 +12,4 @@ if __name__ == '__main__':
               torch.randn(num_tokens, 1, embed_size))
 
     total_macs = profile_macs(model, *inputs)
-    print('number of MACs = {:.4g} G'.format(total_macs / 1e9))
+    print('transformer: {:.4g} G'.format(total_macs / 1e9))
