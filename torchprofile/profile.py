@@ -7,9 +7,9 @@ __all__ = ['profile_macs']
 
 
 def profile_macs(model, args=(), kwargs=None, reduction=sum):
-    graph = trace(model, args, kwargs)
-
     results = dict()
+
+    graph = trace(model, args, kwargs)
     for node in graph.nodes:
         for operators, func in handlers:
             if isinstance(operators, str):
