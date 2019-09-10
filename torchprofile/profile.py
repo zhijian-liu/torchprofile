@@ -15,7 +15,8 @@ def profile_macs(model, args=(), kwargs=None, reduction=sum):
             if isinstance(operators, str):
                 operators = [operators]
             if node.operator in operators:
-                results[node] = func(node)
+                if func is not None:
+                    results[node] = func(node)
                 break
         else:
             warnings.warn('No handlers found: "{}". Skipped.'.format(node.operator))

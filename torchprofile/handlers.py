@@ -59,10 +59,6 @@ def avg_pool(node):
     return np.prod(os)
 
 
-def none(node):
-    return 0
-
-
 handlers = (
     ('aten::addmm', addmm),
     ('aten::addmv', addmv),
@@ -82,5 +78,5 @@ handlers = (
       'aten::dropout_', 'aten::eq', 'aten::flatten', 'aten::hardtanh_', 'aten::int', 'aten::max_pool1d',
       'aten::max_pool2d', 'aten::max_pool3d', 'aten::ne', 'aten::relu', 'aten::relu_', 'aten::select', 'aten::size',
       'aten::slice', 'aten::softmax', 'aten::sum', 'aten::t', 'aten::transpose', 'aten::view', 'prim::constant',
-      'prim::listconstruct', 'prim::listunpack', 'prim::numtotensor'), none)
+      'prim::listconstruct', 'prim::listunpack', 'prim::numtotensor'), None)
 )
