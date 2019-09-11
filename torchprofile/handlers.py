@@ -80,13 +80,9 @@ def instance_norm_or_layer_norm(node):
     return np.prod(os)
 
 
-def avg_pool_nd(node):
+def avg_pool_or_mean(node):
     os = node.outputs[0].shape
     return np.prod(os)
-
-
-def mean(node):
-    return 1
 
 
 handlers = (
@@ -99,8 +95,7 @@ handlers = (
     ('aten::batch_norm', batch_norm),
     (('aten::instance_norm', 'aten::layer_norm'), instance_norm_or_layer_norm),
     (('aten::adaptive_avg_pool1d', 'aten::adaptive_avg_pool2d', 'aten::adaptive_avg_pool3d',
-      'aten::avg_pool1d', 'aten::avg_pool2d', 'aten::avg_pool3d'), avg_pool_nd),
-    ('aten::mean', mean),
+      'aten::avg_pool1d', 'aten::avg_pool2d', 'aten::avg_pool3d', 'aten::mean'), avg_pool_or_mean),
 
     (('aten::adaptive_max_pool1d', 'aten::adaptive_max_pool2d', 'aten::adaptive_max_pool3d', 'aten::add', 'aten::add_',
       'aten::alpha_dropout', 'aten::cat', 'aten::chunk', 'aten::clone', 'aten::constant_pad_nd', 'aten::contiguous',
