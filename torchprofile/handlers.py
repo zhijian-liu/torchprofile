@@ -4,27 +4,46 @@ __all__ = ['handlers']
 
 
 def addmm(node):
-    # [n, p] = aten::addmm([n(, p)], [n, m], [m, p], *, *)
-    n, p = node.outputs[0].shape
+    # [n, p] = aten::addmm([n, p], [n, m], [m, p], *, *)
     n, m = node.inputs[1].shape
+    m, p = node.inputs[2].shape
     return n * m * p
 
 
 def addmv(node):
     # [n] = aten::addmv([n], [n, m], [m], *, *)
-    n, m = node.outputs[1].shape
+    n, m = node.inputs[1].shape
     return n * m
 
 
 def bmm(node):
     # [b, n, p] = aten::bmm([b, n, m], [b, m, p])
-    b, n, p = node.outputs[0].shape
     b, n, m = node.inputs[0].shape
+    b, m, p = node.inputs[1].shape
     return b * n * m * p
 
 
 def matmul(node):
-    return np.prod(node.inputs[0].shape + [node.inputs[1].shape[-1]])
+    if len(node.inputs[0].shape) == 1 and len(node.inputs[1].shape) == 1:
+        # [] = aten::matmul([n], [n])
+        n = node.inputs[0].shape[0]
+        return n
+    elif len(node.inputs[0].shape) == 2 and len(node.inputs[1].shape) == 2:
+        # [n, p] = aten::matmul([n, m], [m, p])
+        n, m = node.inputs[0].shape
+        m, p = node.inputs[1].shape
+        return n * m * p
+    elif len(node.inputs[0].shape) == 1 and len(node.inputs[1].shape) == 2:
+        # [m] = aten::matmul([n], [n, m])
+        n, m = node.inputs[1].shape
+        return n * m
+    elif len(node.inputs[0].shape) == 2 and len(node.inputs[1].shape) == 1:
+        # [n] = aten::matmul([n, m], [m])
+        n, m = node.inputs[0].shape
+        return n * m
+    else:
+        # TODO: support broadcast
+        return np.prod(node.inputs[0].shape + [node.inputs[1].shape[-1]])
 
 
 def mul(node):
@@ -35,7 +54,7 @@ def mul(node):
 def convolution(node):
     os = node.outputs[0].shape
     gs, *ks = node.inputs[1].shape[1:]
-    return np.prod(os) * np.prod(ks) * gs
+    return np.prod(os) * gs * np.prod(ks)
 
 
 def batch_norm(node):
