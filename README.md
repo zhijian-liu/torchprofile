@@ -24,7 +24,7 @@ model = resnet18()
 inputs = torch.randn(1, 3, 224, 224)
 ```
 
-The number of MACs can then be measured using `torchprofile.profile_macs`:
+You can then measure the number of MACs using `profile_macs`:
 
 ```python
 from torchprofile import profile_macs
