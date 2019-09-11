@@ -28,11 +28,6 @@ def matmul(node):
         # [] = aten::matmul([n], [n])
         n = node.inputs[0].shape[0]
         return n
-    elif len(node.inputs[0].shape) == 2 and len(node.inputs[1].shape) == 2:
-        # [n, p] = aten::matmul([n, m], [m, p])
-        n, m = node.inputs[0].shape
-        m, p = node.inputs[1].shape
-        return n * m * p
     elif len(node.inputs[0].shape) == 1 and len(node.inputs[1].shape) == 2:
         # [m] = aten::matmul([n], [n, m])
         n, m = node.inputs[1].shape
@@ -41,9 +36,25 @@ def matmul(node):
         # [n] = aten::matmul([n, m], [m])
         n, m = node.inputs[0].shape
         return n * m
+    elif len(node.inputs[0].shape) == 2 and len(node.inputs[1].shape) == 2:
+        # [n, p] = aten::matmul([n, m], [m, p])
+        n, m = node.inputs[0].shape
+        m, p = node.inputs[1].shape
+        return n * m * p
+    elif len(node.inputs[0].shape) == 1:
+        # [..., m] = aten::matmul([n], [..., n, m])
+        *bs, n, m = node.inputs[1].shape
+        return np.prod(bs) * n * m
+    elif len(node.inputs[1].shape) == 1:
+        # [..., n] = aten::matmul([..., n, m], [m])
+        *bs, n, m = node.inputs[0].shape
+        return np.prod(bs) * n * m
     else:
-        # TODO: support broadcast
-        return np.prod(node.inputs[0].shape + [node.inputs[1].shape[-1]])
+        # [..., n, p] = aten::matmul([..., n, m], [..., m, p])
+        bs = node.outputs[0].shape[:-2]
+        n, m = node.inputs[0].shape[-2:]
+        m, p = node.inputs[1].shape[-2:]
+        return np.prod(bs) * n * m * p
 
 
 def mul(node):
