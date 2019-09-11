@@ -43,20 +43,18 @@ def matmul(node):
         return n * m * p
     elif node.inputs[0].ndim == 1:
         # [..., m] = aten::matmul([n], [..., n, m])
-        bs = node.outputs[0].shape[:-2]
-        n, m = node.inputs[1].shape[-2:]
-        return np.prod(bs) * n * m
+        *b, n, m = node.inputs[1].shape
+        return np.prod(b) * n * m
     elif node.inputs[1].ndim == 1:
         # [..., n] = aten::matmul([..., n, m], [m])
-        bs = node.outputs[0].shape[:-2]
-        n, m = node.inputs[0].shape[-2:]
-        return np.prod(bs) * n * m
+        *b, n, m = node.inputs[0].shape
+        return np.prod(b) * n * m
     else:
         # [..., n, p] = aten::matmul([..., n, m], [..., m, p])
-        bs = node.outputs[0].shape[:-2]
-        n, m = node.inputs[0].shape[-2:]
-        m, p = node.inputs[1].shape[-2:]
-        return np.prod(bs) * n * m * p
+        *b, n, p = node.outputs[0].shape
+        *_, n, m = node.inputs[0].shape
+        *_, m, p = node.inputs[1].shape
+        return np.prod(b) * n * m * p
 
 
 def mul(node):
