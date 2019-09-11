@@ -43,11 +43,13 @@ def matmul(node):
         return n * m * p
     elif len(node.inputs[0].shape) == 1:
         # [..., m] = aten::matmul([n], [..., n, m])
-        *bs, n, m = node.inputs[1].shape
+        bs = node.outputs[0].shape[:-2]
+        n, m = node.inputs[1].shape[-2:]
         return np.prod(bs) * n * m
     elif len(node.inputs[1].shape) == 1:
         # [..., n] = aten::matmul([..., n, m], [m])
-        *bs, n, m = node.inputs[0].shape
+        bs = node.outputs[0].shape[:-2]
+        n, m = node.inputs[0].shape[-2:]
         return np.prod(bs) * n * m
     else:
         # [..., n, p] = aten::matmul([..., n, m], [..., m, p])
