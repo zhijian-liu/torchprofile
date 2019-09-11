@@ -64,8 +64,8 @@ def mul(node):
 
 def convolution(node):
     os = node.outputs[0].shape
-    gs, *ks = node.inputs[1].shape[1:]
-    return np.prod(os) * gs * np.prod(ks)
+    oc, ic, *ks = node.inputs[1].shape
+    return np.prod(os) * ic * np.prod(ks)
 
 
 def batch_norm(node):
