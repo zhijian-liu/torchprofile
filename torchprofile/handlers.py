@@ -24,29 +24,29 @@ def bmm(node):
 
 
 def matmul(node):
-    if len(node.inputs[0].shape) == 1 and len(node.inputs[1].shape) == 1:
+    if node.inputs[0].ndim == 1 and node.inputs[1].ndim == 1:
         # [] = aten::matmul([n], [n])
         n = node.inputs[0].shape[0]
         return n
-    elif len(node.inputs[0].shape) == 1 and len(node.inputs[1].shape) == 2:
+    elif node.inputs[0].ndim == 1 and node.inputs[1].ndim == 2:
         # [m] = aten::matmul([n], [n, m])
         n, m = node.inputs[1].shape
         return n * m
-    elif len(node.inputs[0].shape) == 2 and len(node.inputs[1].shape) == 1:
+    elif node.inputs[0].ndim == 2 and node.inputs[1].ndim == 1:
         # [n] = aten::matmul([n, m], [m])
         n, m = node.inputs[0].shape
         return n * m
-    elif len(node.inputs[0].shape) == 2 and len(node.inputs[1].shape) == 2:
+    elif node.inputs[0].ndim == 2 and node.inputs[1].ndim == 2:
         # [n, p] = aten::matmul([n, m], [m, p])
         n, m = node.inputs[0].shape
         m, p = node.inputs[1].shape
         return n * m * p
-    elif len(node.inputs[0].shape) == 1:
+    elif node.inputs[0].ndim == 1:
         # [..., m] = aten::matmul([n], [..., n, m])
         bs = node.outputs[0].shape[:-2]
         n, m = node.inputs[1].shape[-2:]
         return np.prod(bs) * n * m
-    elif len(node.inputs[1].shape) == 1:
+    elif node.inputs[1].ndim == 1:
         # [..., n] = aten::matmul([..., n, m], [m])
         bs = node.outputs[0].shape[:-2]
         n, m = node.inputs[0].shape[-2:]

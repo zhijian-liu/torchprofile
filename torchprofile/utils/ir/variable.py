@@ -31,8 +31,15 @@ class Variable:
     def shape(self, shape):
         self._shape = shape
 
+    @property
+    def ndim(self):
+        return len(self.shape)
+
     def size(self):
-        return self._shape
+        return self.shape
+
+    def dim(self):
+        return self.ndim
 
     def __repr__(self):
         text = '%' + self.name + ': ' + self.dtype
