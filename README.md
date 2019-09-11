@@ -1,6 +1,6 @@
 # torchprofile
 
-This is a `torch.jit.trace`-based profiler to count the number of MACs / FLOPs for PyTorch models.
+This is a profiler to count the number of MACs / FLOPs of a PyTorch model based on `torch.jit.trace`.
 * It is more **general** than ONNX-based profilers as some operations in PyTorch are not supported by ONNX for now.
 * It is more **accurate** than hook-based profilers as they cannot profile operations within the `torch.nn.Module`.
 
