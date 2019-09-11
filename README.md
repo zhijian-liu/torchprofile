@@ -14,7 +14,7 @@ pip install --upgrade git+https://github.com/mit-han-lab/torchprofile.git
 
 ## Getting Started
 
-Before profiling, you should first define your PyTorch model and its (dummy) input:
+You should first define your PyTorch model and its (dummy) input:
 
 ```python
 import torch
@@ -24,7 +24,7 @@ model = resnet18()
 inputs = torch.randn(1, 3, 224, 224)
 ```
 
-The number of MACs can be measured using `profile_macs`:
+The number of MACs can then be measured using `torchprofile.profile_macs`:
 
 ```python
 from torchprofile import profile_macs
