@@ -63,8 +63,11 @@ def mul(node):
 
 
 def convolution(node):
+    if node.outputs[0].shape[1] == node.inputs[1].shape[0]:
+        oc, ic, *ks = node.inputs[1].shape
+    else:
+        ic, oc, *ks = node.inputs[1].shape
     os = node.outputs[0].shape
-    oc, ic, *ks = node.inputs[1].shape
     return np.prod(os) * ic * np.prod(ks)
 
 
