@@ -108,5 +108,6 @@ handlers = (
       'aten::reflection_pad3d', 'aten::relu', 'aten::relu_', 'aten::replication_pad1d', 'aten::replication_pad2d',
       'aten::replication_pad3d', 'aten::select', 'aten::sigmoid', 'aten::size', 'aten::slice', 'aten::softmax',
       'aten::softshrink', 'aten::sub', 'aten::sum', 'aten::t', 'aten::tanh', 'aten::threshold', 'aten::transpose',
-      'aten::view', 'prim::constant', 'prim::listconstruct', 'prim::listunpack', 'prim::numtotensor'), None)
+      'aten::view', 'aten::zeros', 'prim::constant', 'prim::listconstruct', 'prim::listunpack', 'prim::numtotensor'
+      ), None)
 )
