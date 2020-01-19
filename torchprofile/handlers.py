@@ -63,8 +63,11 @@ def mul(node):
 
 
 def convolution(node):
+    if node.outputs[0].shape[1] == node.inputs[1].shape[0]:
+        oc, ic, *ks = node.inputs[1].shape
+    else:
+        ic, oc, *ks = node.inputs[1].shape
     os = node.outputs[0].shape
-    oc, ic, *ks = node.inputs[1].shape
     return np.prod(os) * ic * np.prod(ks)
 
 
@@ -105,5 +108,6 @@ handlers = (
       'aten::reflection_pad3d', 'aten::relu', 'aten::relu_', 'aten::replication_pad1d', 'aten::replication_pad2d',
       'aten::replication_pad3d', 'aten::select', 'aten::sigmoid', 'aten::size', 'aten::slice', 'aten::softmax',
       'aten::softshrink', 'aten::sub', 'aten::sum', 'aten::t', 'aten::tanh', 'aten::threshold', 'aten::transpose',
-      'aten::view', 'prim::constant', 'prim::listconstruct', 'prim::listunpack', 'prim::numtotensor'), None)
+      'aten::view', 'aten::zeros', 'prim::constant', 'prim::listconstruct', 'prim::listunpack', 'prim::numtotensor'
+      ), None)
 )
