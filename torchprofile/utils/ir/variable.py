@@ -44,5 +44,5 @@ class Variable:
     def __repr__(self):
         text = '%' + self.name + ': ' + self.dtype
         if self.shape is not None:
-            text += '[' + ', '.join([str(shape) for shape in self.shape]) + ']'
+            text += '[' + ', '.join([str(x) for x in self.shape]) + ']'
         return text

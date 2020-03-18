@@ -17,8 +17,8 @@ def trace(model, args=(), kwargs=None):
         graph, _ = torch.jit._get_trace_graph(Flatten(model), args, kwargs)
 
     variables = dict()
-    for node in graph.nodes():
-        for v in list(node.inputs()) + list(node.outputs()):
+    for x in graph.nodes():
+        for v in list(x.inputs()) + list(x.outputs()):
             if 'tensor' in v.type().kind().lower():
                 variables[v] = Variable(
                     name=v.debugName(),
@@ -32,18 +32,18 @@ def trace(model, args=(), kwargs=None):
                 )
 
     nodes = []
-    for node in graph.nodes():
+    for x in graph.nodes():
         node = Node(
-            operator=node.kind(),
+            operator=x.kind(),
             attributes={
-                x: getattr(node, node.kindOf(x))(x)
-                for x in node.attributeNames()
+                s: getattr(x, x.kindOf(s))(s)
+                for s in x.attributeNames()
             },
-            inputs=[variables[v] for v in node.inputs() if v in variables],
-            outputs=[variables[v] for v in node.outputs() if v in variables],
-            scope=node.scopeName() \
-                    .replace('Flatten/', '', 1) \
-                    .replace('Flatten', '', 1),
+            inputs=[variables[v] for v in x.inputs() if v in variables],
+            outputs=[variables[v] for v in x.outputs() if v in variables],
+            scope=x.scopeName() \
+                .replace('Flatten/', '', 1) \
+                .replace('Flatten', '', 1),
         )
         nodes.append(node)
 
