@@ -18,27 +18,40 @@ def trace(model, args=(), kwargs=None):
 
     variables = dict()
     for node in graph.nodes():
-        for var in list(node.inputs()) + list(node.outputs()):
-            if 'tensor' in var.type().kind().lower():
-                variables[var] = Variable(name=var.debugName(),
-                                          dtype=var.type().scalarType(),
-                                          shape=var.type().sizes())
+        for v in list(node.inputs()) + list(node.outputs()):
+            if 'tensor' in v.type().kind().lower():
+                variables[v] = Variable(
+                    name=v.debugName(),
+                    dtype=v.type().scalarType(),
+                    shape=v.type().sizes(),
+                )
             else:
-                variables[var] = Variable(name=var.debugName(),
-                                          dtype=str(var.type()))
+                variables[v] = Variable(
+                    name=v.debugName(),
+                    dtype=str(v.type()),
+                )
 
     nodes = []
     for node in graph.nodes():
-        node = Node(operator=node.kind(),
-                    attributes={name: getattr(node, node.kindOf(name))(name) for name in node.attributeNames()},
-                    inputs=[variables[var] for var in node.inputs() if var in variables],
-                    outputs=[variables[var] for var in node.outputs() if var in variables],
-                    scope=node.scopeName().replace('Flatten/', '', 1).replace('Flatten', '', 1))
+        node = Node(
+            operator=node.kind(),
+            attributes={
+                x: getattr(node, node.kindOf(x))(x)
+                for x in node.attributeNames()
+            },
+            inputs=[variables[v] for v in node.inputs() if v in variables],
+            outputs=[variables[v] for v in node.outputs() if v in variables],
+            scope=node.scopeName() \
+                    .replace('Flatten/', '', 1) \
+                    .replace('Flatten', '', 1),
+        )
         nodes.append(node)
 
-    graph = Graph(name=model.__class__.__module__ + '.' + model.__class__.__name__,
-                  variables=[var for var in variables.values()],
-                  inputs=[variables[var] for var in graph.inputs() if var in variables],
-                  outputs=[variables[var] for var in graph.outputs() if var in variables],
-                  nodes=nodes)
+    graph = Graph(
+        name=model.__class__.__module__ + '.' + model.__class__.__name__,
+        variables=[v for v in variables.values()],
+        inputs=[variables[v] for v in graph.inputs() if v in variables],
+        outputs=[variables[v] for v in graph.outputs() if v in variables],
+        nodes=nodes,
+    )
     return graph

@@ -19,7 +19,8 @@ def profile_macs(model, args=(), kwargs=None, reduction=sum):
                     results[node] = func(node)
                 break
         else:
-            warnings.warn('No handlers found: "{}". Skipped.'.format(node.operator))
+            warnings.warn('No handlers found: "{}". Skipped.'.format(
+                node.operator))
 
     if reduction is not None:
         return reduction(results.values())
