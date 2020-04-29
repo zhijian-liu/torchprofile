@@ -174,5 +174,6 @@ handlers = (
         'prim::listconstruct',
         'prim::listunpack',
         'prim::numtotensor',
+        'prim::tupleconstruct'
     ), None),
 )
