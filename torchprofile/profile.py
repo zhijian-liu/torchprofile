@@ -16,7 +16,7 @@ def profile_macs(model, args=(), kwargs=None, reduction=sum):
                 operators = [operators]
             if node.operator in operators:
                 if func is not None:
-                    results[node] = func(node)
+                    results[node] = float(func(node))
                 break
         else:
             warnings.warn('No handlers found: "{}". Skipped.'.format(
