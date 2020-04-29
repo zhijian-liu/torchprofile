@@ -119,6 +119,7 @@ handlers = (
         'aten::alpha_dropout',
         'aten::cat',
         'aten::chunk',
+        'aten::clamp',
         'aten::clone',
         'aten::constant_pad_nd',
         'aten::contiguous',
