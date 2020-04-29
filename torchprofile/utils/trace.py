@@ -4,7 +4,7 @@ import torch
 import torch.jit
 
 from .flatten import Flatten
-from .ir import Variable, Node, Graph
+from .ir import Graph, Node, Variable
 
 __all__ = ['trace']
 

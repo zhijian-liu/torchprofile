@@ -1,7 +1,6 @@
 import torch
-from torchvision import models
-
 from torchprofile import profile_macs
+from torchvision import models
 
 if __name__ == '__main__':
     for name, model in models.__dict__.items():

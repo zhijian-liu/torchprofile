@@ -1,6 +1,5 @@
 import torch
 from torch.nn.modules.transformer import Transformer
-
 from torchprofile import profile_macs
 
 if __name__ == '__main__':

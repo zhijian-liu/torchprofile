@@ -1,6 +1,5 @@
 import torch
 import torch.nn as nn
-
 from torchprofile.utils.trace import trace
 
 if __name__ == '__main__':
