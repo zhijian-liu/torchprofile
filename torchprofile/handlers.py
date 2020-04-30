@@ -1,4 +1,4 @@
-import torchprofile.utils.math as math
+from .utils import math
 
 __all__ = ['handlers']
 
