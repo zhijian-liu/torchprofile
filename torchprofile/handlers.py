@@ -1,4 +1,4 @@
-import numpy as np
+import torchprofile.utils.math as math
 
 __all__ = ['handlers']
 
@@ -44,22 +44,22 @@ def matmul(node):
     elif node.inputs[0].ndim == 1:
         # [..., m] = aten::matmul([n], [..., n, m])
         *b, n, m = node.inputs[1].shape
-        return np.prod(b) * n * m
+        return math.prod(b) * n * m
     elif node.inputs[1].ndim == 1:
         # [..., n] = aten::matmul([..., n, m], [m])
         *b, n, m = node.inputs[0].shape
-        return np.prod(b) * n * m
+        return math.prod(b) * n * m
     else:
         # [..., n, p] = aten::matmul([..., n, m], [..., m, p])
         *b, n, p = node.outputs[0].shape
         *_, n, m = node.inputs[0].shape
         *_, m, p = node.inputs[1].shape
-        return np.prod(b) * n * m * p
+        return math.prod(b) * n * m * p
 
 
 def mul(node):
     os = node.outputs[0].shape
-    return np.prod(os)
+    return math.prod(os)
 
 
 def convolution(node):
@@ -68,7 +68,7 @@ def convolution(node):
     else:
         ic, oc, *ks = node.inputs[1].shape
     os = node.outputs[0].shape
-    return np.prod(os) * ic * np.prod(ks)
+    return math.prod(os) * ic * math.prod(ks)
 
 
 def batch_norm(node):
@@ -78,12 +78,12 @@ def batch_norm(node):
 
 def instance_norm_or_layer_norm(node):
     os = node.outputs[0].shape
-    return np.prod(os)
+    return math.prod(os)
 
 
 def avg_pool_or_mean(node):
     os = node.outputs[0].shape
-    return np.prod(os)
+    return math.prod(os)
 
 
 handlers = (
