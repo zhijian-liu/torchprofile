@@ -10,6 +10,6 @@ setup(
         'torch>=1.4',
         'torchvision>=0.4',
     ],
-    url='https://github.com/mit-han-lab/torchprofile/',
+    url='https://github.com/zhijian-liu/torchprofile/',
     license='MIT',
 )
