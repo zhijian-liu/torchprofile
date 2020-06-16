@@ -6,10 +6,9 @@ This is a profiler to count the number of MACs / FLOPs of PyTorch models based o
 
 ## Installation
 
-We recommend you to install the latest version of this package from GitHub:
 
 ```bash
-pip install --upgrade git+https://github.com/mit-han-lab/torchprofile.git
+pip install torchprofile
 ```
 
 ## Getting Started
