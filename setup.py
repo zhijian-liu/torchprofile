@@ -1,4 +1,5 @@
 from setuptools import find_packages, setup
+
 from torchprofile import __version__
 
 setup(
