@@ -119,7 +119,7 @@ handlers = (
       'aten::detach', 'aten::div', 'aten::div_', 'aten::dropout',
       'aten::dropout_', 'aten::embedding', 'aten::eq', 'aten::feature_dropout',
       'aten::flatten', 'aten::floor', 'aten::floor_divide', 'aten::gt',
-      'aten::hardtanh_', 'aten::index', 'aten::int',  'aten::log_softmax',
+      'aten::hardtanh_', 'aten::hardtanh', 'aten::index', 'aten::int',  'aten::log_softmax',
       'aten::lt', 'aten::max_pool1d', 'aten::max_pool1d_with_indices',
       'aten::max_pool2d', 'aten::max_pool2d_with_indices', 'aten::max_pool3d',
       'aten::max_pool3d_with_indices', 'aten::max_unpool1d',
