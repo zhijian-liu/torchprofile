@@ -23,6 +23,15 @@ def bmm(node):
     return b * n * m * p
 
 
+def baddbmm(node):
+    # [b, n, p] = aten::baddbmm([b, n, p], [b, n, m], [b, m, p])
+    b, n, p = node.inputs[0].shape
+    b, n1, m = node.inputs[1].shape
+    b, m1, p1 = node.inputs[2].shape
+    assert n == n1 and m == m1 and p == p1
+    return b * n * m * p
+
+
 def matmul(node):
     if node.inputs[0].ndim == 1 and node.inputs[1].ndim == 1:
         # [] = aten::matmul([n], [n])
@@ -102,6 +111,7 @@ handlers = (
     ('aten::addmm', addmm),
     ('aten::addmv', addmv),
     ('aten::bmm', bmm),
+    ('aten::baddbmm', baddbmm),
     (('aten::linear', 'aten::matmul'), matmul),
     (('aten::mul', 'aten::mul_'), mul),
     ('aten::_convolution', convolution),
@@ -119,7 +129,7 @@ handlers = (
       'aten::detach', 'aten::div', 'aten::div_', 'aten::dropout',
       'aten::dropout_', 'aten::embedding', 'aten::eq', 'aten::feature_dropout',
       'aten::flatten', 'aten::floor', 'aten::floor_divide', 'aten::gt',
-      'aten::hardtanh_', 'aten::hardtanh', 'aten::index', 'aten::int',  'aten::log_softmax',
+      'aten::hardtanh_', 'aten::hardtanh', 'aten::index', 'aten::int', 'aten::log_softmax',
       'aten::lt', 'aten::max_pool1d', 'aten::max_pool1d_with_indices',
       'aten::max_pool2d', 'aten::max_pool2d_with_indices', 'aten::max_pool3d',
       'aten::max_pool3d_with_indices', 'aten::max_unpool1d',
