@@ -107,7 +107,6 @@ def upsample_bilinear2d(node):
     return math.prod(os) * 4
 
 def scaled_dot_product_attention(node):
-    # [b, h, n, p] = aten::scaled_dot_product_attention([b, h, n, m], [b, h, m, p], [b, h, n, p], *, *, *, *)
     b, h, l, c = node.inputs[0].shape
     b1, h1, l1, c1 = node.inputs[1].shape
     b2, h2, l2, c2 = node.inputs[2].shape
