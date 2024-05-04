@@ -107,9 +107,21 @@ def upsample_bilinear2d(node):
     return math.prod(os) * 4
 
 def scaled_dot_product_attention(node):
-    b, h, l, c = node.inputs[0].shape
-    b1, h1, l1, c1 = node.inputs[1].shape
-    b2, h2, l2, c2 = node.inputs[2].shape
+    b = node.inputs[0].shape[0]
+    h = math.prod(node.inputs[0].shape[1:-2])
+    l = node.inputs[0].shape[-2]
+    c = node.inputs[0].shape[-1]
+
+    b1 = node.inputs[1].shape[0]
+    h1 = math.prod(node.inputs[1].shape[1:-2])
+    l1 = node.inputs[1].shape[-2]
+    c1 = node.inputs[1].shape[-1]
+
+    b2 = node.inputs[2].shape[0]
+    h2 = math.prod(node.inputs[2].shape[1:-2])
+    l2 = node.inputs[2].shape[-2]
+    c2 = node.inputs[2].shape[-1]
+
     assert b == b1 == b2 and h == h1 == h2
     assert c == c1 and l1 == l2
     return b * h * l * c * l1 + b * h * l * c2 * l2
