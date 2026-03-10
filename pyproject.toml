@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "torchprofile"
-version = "0.0.4"
+version = "0.1.0"
 description = "Count the MACs / FLOPs of PyTorch models"
 readme = "README.md"
 license = {text = "MIT"}
