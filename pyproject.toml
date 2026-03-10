@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "torchprofile"
+version = "0.0.4"
+description = "Count the MACs / FLOPs of PyTorch models"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.9"
+authors = [{name = "Zhijian Liu"}]
+dependencies = ["torch>=2.0"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+[project.urls]
+Homepage = "https://github.com/zhijian-liu/torchprofile"
+Repository = "https://github.com/zhijian-liu/torchprofile"
+Issues = "https://github.com/zhijian-liu/torchprofile/issues"
+
+[project.optional-dependencies]
+test = ["pytest", "torchvision>=0.15", "transformers"]
+
+[tool.setuptools.packages.find]
+exclude = ["tests*"]
+
+[tool.black]
+line-length = 120
+target-version = ["py39"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

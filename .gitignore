@@ -1,2 +1,13 @@
-.vscode/
 __pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+*.whl
+dist/
+build/
+.eggs/
+*.so
+.pytest_cache/
+.mypy_cache/
+.vscode/
+.idea/
